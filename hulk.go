@@ -696,8 +696,8 @@ func httpcall(url string, host string, data string, headers arrayFlags, s chan u
 		q.Header.Set("User-Agent", headersUseragents[rand.Intn(len(headersUseragents))])
 		q.Header.Set("Cache-Control", "no-cache")
 		q.Header.Set("Accept-Charset", acceptCharset)
-		q.Header.Set("Referer", headersReferers[rand.Intn(len(headersReferers))]+buildblock(rand.Intn(50)+500))
-		q.Header.Set("Keep-Alive", strconv.Itoa(rand.Intn(100)+1000))
+		q.Header.Set("Referer", headersReferers[rand.Intn(len(headersReferers))]+buildblock(rand.Intn(5)+500))
+		q.Header.Set("Keep-Alive", strconv.Itoa(rand.Intn(10)+200))
 		q.Header.Set("Connection", "keep-alive")
 		q.Header.Set("Host", host)
 
